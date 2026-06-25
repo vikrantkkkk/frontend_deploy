@@ -1,20 +1,18 @@
-import { DashboardIcon, SettingsIcon, UsersIcon } from './icons';
+import { ChevronLeftIcon, MenuIcon, UsersIcon } from './icons';
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: DashboardIcon, active: false },
   { id: 'users', label: 'Users', icon: UsersIcon, active: true },
-  { id: 'settings', label: 'Settings', icon: SettingsIcon, active: false },
 ];
 
-export default function Sidebar({ collapsed }) {
+export default function Sidebar({ collapsed, onToggleSidebar }) {
   return (
     <aside
       className={`fixed left-0 top-0 z-30 flex h-full flex-col border-r border-slate-200 bg-white transition-all duration-300 ease-in-out dark:border-slate-700 dark:bg-slate-900 ${
-        collapsed ? 'w-[72px]' : 'w-60'
+        collapsed ? 'w-[72px]' : 'w-60 max-md:shadow-xl'
       }`}
     >
       <div
-        className={`flex h-16 shrink-0 items-center border-b border-slate-200 dark:border-slate-700 ${
+        className={`flex h-14 shrink-0 items-center border-b border-slate-200 dark:border-slate-700 sm:h-16 ${
           collapsed ? 'justify-center px-2' : 'px-5'
         }`}
       >
@@ -48,11 +46,16 @@ export default function Sidebar({ collapsed }) {
         ))}
       </nav>
 
-      {!collapsed && (
-        <div className="border-t border-slate-200 p-4 dark:border-slate-700">
-          <p className="text-xs text-slate-500 dark:text-slate-400">v1.0.0 · DevOps</p>
-        </div>
-      )}
+      <div className="flex shrink-0 justify-end border-t border-slate-200 p-3 dark:border-slate-700">
+        <button
+          type="button"
+          onClick={onToggleSidebar}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className="rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+        >
+          {collapsed ? <MenuIcon /> : <ChevronLeftIcon />}
+        </button>
+      </div>
     </aside>
   );
 }

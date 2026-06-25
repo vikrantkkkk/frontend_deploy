@@ -111,15 +111,15 @@ export default function UsersPage() {
     'rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800';
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto w-full max-w-6xl">
       {error && (
-        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400">
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 sm:mb-6 sm:text-base dark:border-red-900 dark:bg-red-950/50 dark:text-red-400">
           {error}
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,360px)_1fr]">
+        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 dark:border-slate-700 dark:bg-slate-900">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
             {editingId ? 'Edit User' : 'Add User'}
           </h2>
@@ -172,7 +172,7 @@ export default function UsersPage() {
               />
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-wrap gap-3 pt-2">
               <button
                 type="submit"
                 disabled={submitting}
@@ -190,8 +190,8 @@ export default function UsersPage() {
           </form>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-          <div className="mb-4 flex items-center justify-between">
+        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 dark:border-slate-700 dark:bg-slate-900">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Users</h2>
             <button type="button" onClick={loadUsers} className={`${btnSecondary} px-3 py-1.5 text-sm`}>
               Refresh
@@ -203,47 +203,85 @@ export default function UsersPage() {
           ) : users.length === 0 ? (
             <p className="text-slate-500 dark:text-slate-400">No users found. Add your first user.</p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-left text-sm dark:divide-slate-700">
-                <thead className="bg-slate-50 text-slate-600 dark:bg-slate-800/50 dark:text-slate-400">
-                  <tr>
-                    <th className="px-3 py-2 font-medium">Name</th>
-                    <th className="px-3 py-2 font-medium">Email</th>
-                    <th className="px-3 py-2 font-medium">Phone</th>
-                    <th className="px-3 py-2 font-medium">Created</th>
-                    <th className="px-3 py-2 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {users.map((user) => (
-                    <tr key={user.id} className="text-slate-800 dark:text-slate-200">
-                      <td className="px-3 py-3 font-medium">{user.name}</td>
-                      <td className="px-3 py-3">{user.email}</td>
-                      <td className="px-3 py-3">{user.phone || '—'}</td>
-                      <td className="px-3 py-3 whitespace-nowrap">{formatDate(user.created_at)}</td>
-                      <td className="px-3 py-3">
-                        <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => startEdit(user)}
-                            className="rounded-md bg-slate-100 px-3 py-1.5 font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(user)}
-                            className="rounded-md bg-red-50 px-3 py-1.5 font-medium text-red-700 transition hover:bg-red-100 dark:bg-red-950/50 dark:text-red-400 dark:hover:bg-red-950"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
+            <>
+              <div className="space-y-3 md:hidden">
+                {users.map((user) => (
+                  <article
+                    key={user.id}
+                    className="rounded-lg border border-slate-200 p-4 dark:border-slate-700"
+                  >
+                    <p className="font-medium text-slate-900 dark:text-white">{user.name}</p>
+                    <p className="mt-1 truncate text-sm text-slate-600 dark:text-slate-400">{user.email}</p>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                      {user.phone || 'No phone'}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-500">
+                      Created {formatDate(user.created_at)}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(user)}
+                        className="rounded-md bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(user)}
+                        className="rounded-md bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 transition hover:bg-red-100 dark:bg-red-950/50 dark:text-red-400 dark:hover:bg-red-950"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto md:block">
+                <table className="min-w-full divide-y divide-slate-200 text-left text-sm dark:divide-slate-700">
+                  <thead className="bg-slate-50 text-slate-600 dark:bg-slate-800/50 dark:text-slate-400">
+                    <tr>
+                      <th className="px-3 py-2 font-medium">Name</th>
+                      <th className="px-3 py-2 font-medium">Email</th>
+                      <th className="hidden px-3 py-2 font-medium lg:table-cell">Phone</th>
+                      <th className="hidden px-3 py-2 font-medium xl:table-cell">Created</th>
+                      <th className="px-3 py-2 font-medium">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {users.map((user) => (
+                      <tr key={user.id} className="text-slate-800 dark:text-slate-200">
+                        <td className="px-3 py-3 font-medium">{user.name}</td>
+                        <td className="max-w-[200px] truncate px-3 py-3">{user.email}</td>
+                        <td className="hidden px-3 py-3 lg:table-cell">{user.phone || '—'}</td>
+                        <td className="hidden whitespace-nowrap px-3 py-3 xl:table-cell">
+                          {formatDate(user.created_at)}
+                        </td>
+                        <td className="px-3 py-3">
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => startEdit(user)}
+                              className="rounded-md bg-slate-100 px-3 py-1.5 font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(user)}
+                              className="rounded-md bg-red-50 px-3 py-1.5 font-medium text-red-700 transition hover:bg-red-100 dark:bg-red-950/50 dark:text-red-400 dark:hover:bg-red-950"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </section>
       </div>

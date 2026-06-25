@@ -3,10 +3,7 @@ import UsersPage from './pages/UsersPage';
 
 export default function App() {
   return (
-    <Layout
-      title="User Management"
-      subtitle="Create, update, and permanently delete users."
-    >
+    <Layout title="User Management">
       <UsersPage />
     </Layout>
   );
