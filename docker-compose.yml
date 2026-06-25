@@ -1,0 +1,16 @@
+services:
+  frontend-app:
+    image: vikrantkkk/deploy-frontend:latest
+    container_name: frontend-app
+
+    ports:
+      - "8080:80"
+
+    restart: unless-stopped
+
+    networks:
+      - three-tier-network
+
+networks:
+  three-tier-network:
+    external: true
