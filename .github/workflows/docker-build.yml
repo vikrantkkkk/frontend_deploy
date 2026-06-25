@@ -23,6 +23,10 @@ jobs:
         run: |
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" > .env
 
+      - name: Verify env
+        run: |
+          cat .env
+
       - name: Build and Push
         run: |
           docker build -t vikrantkkk/deploy-frontend:latest .
